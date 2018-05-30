@@ -1,27 +1,24 @@
 const cartinhas = 'https://api.magicthegathering.io/v1/cards'
 
-function criaCarta(nome, desc, URLimg, tit, i){
-    var newRow = document.createElement('div')
+function criaCarta(nome, desc, URLimg, tit, i) {
+    let newRow = document.createElement('div')
     newRow.classList.add('row')
-    var newCol = document.createElement('div')
+    let newCol = document.createElement('div')
     newCol.classList.add('col-sm')
-    var newCard = document.createElement('div')
+    let newCard = document.createElement('div')
     newCard.classList.add('card')
-    newCard.style="width: 18rem;"
-    var imagem = document.createElement('img')
+    newCard.style = 'width: 18rem'
+    let imagem = document.createElement('img')
     imagem.classList.add('card-img-top')
     imagem.src = URLimg
-    var conteudo = document.createElement('div')
+    let conteudo = document.createElement('div')
     conteudo.classList.add('card-body')
-    var titulo = document.createElement('h5')
+    let titulo = document.createElement('h5')
     titulo.classList.add('card-title')
     titulo.appendChild(document.createTextNode(tit))
     var de = document.createElement('p')
     de.classList.add('card-text')
     de.appendChild(document.createTextNode(desc))
-
-
-
     conteudo.appendChild(titulo)
     conteudo.appendChild(de)
     newCard.appendChild(conteudo)
@@ -30,22 +27,19 @@ function criaCarta(nome, desc, URLimg, tit, i){
     newRow.appendChild(newCol)
     var insere = document.getElementById('carta')
     insere.appendChild(newCol)
-
 }
 
-
+function cartas(elemento, index, array) {
+    criaCarta(array[index].name, array[index].originalText, array[index].imageUrl, array[index].originalType)
+}
 
 fetch(cartinhas, {
-  method: 'get' 
+    method: 'get'
 })
-.then(function(response) { 
-    return response.json()
-})
-.then(function(jsonrsp) {
-    for(var i = 0; i < jsonrsp.cards.length; i++) {
-        criaCarta(jsonrsp.cards[i].name, jsonrsp.cards[i].originalText, jsonrsp.cards[i].imageUrl, jsonrsp.cards[i].originalType)
-    }
-}) 
-.catch(function(err) { 
-  console.error(err)
-});
+    .then(response => response.json())
+    .then(function (jsonrsp) {
+        jsonrsp.cards.forEach(cartas)
+    })
+    .catch(function (err) {
+        console.error(err)
+    })
