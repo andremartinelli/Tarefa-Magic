@@ -29,6 +29,18 @@ function criaCarta(nome, desc, URLimg, tit, i) {
     insere.appendChild(newCol)
 }
 
+function criaBotaoErro(erromsg){
+    console.log('asdsadas')
+    let newBut = document.createElement('button')
+    newBut.classList.add('btn')
+    newBut.classList.add('btn-danger')
+    newBut.onclick = 'window.location.href = window.location.href'
+    let text = document.createTextNode(erromsg)
+    newBut.appendChild(text)
+    let h = document.getElementById('carta')
+    h.appendChild(newBut)
+}
+
 function cartas(elemento, index, array) {
     criaCarta(array[index].name, array[index].originalText, array[index].imageUrl, array[index].originalType)
 }
@@ -41,5 +53,5 @@ fetch(cartinhas, {
         jsonrsp.cards.forEach(cartas)
     })
     .catch(function (err) {
-        console.error(err)
+        criaBotaoErro("Não foi possível carregar as cartas")
     })
