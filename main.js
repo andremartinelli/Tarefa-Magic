@@ -1,4 +1,4 @@
-const cartinhas = 'https://api.magicthegathering.io/v1/cards'
+let cartinhas = 'https://firstapi-kfxlflwlpi.now.sh/api/cards'
 
 function criaCarta(nome, desc, URLimg, tit, i) {
     let newRow = document.createElement('div')
@@ -30,11 +30,13 @@ function criaCarta(nome, desc, URLimg, tit, i) {
 }
 
 function criaBotaoErro(erromsg){
-    console.log('asdsadas')
     let newBut = document.createElement('button')
     newBut.classList.add('btn')
     newBut.classList.add('btn-danger')
-    newBut.onclick = 'window.location.href = window.location.href'
+    newBut.onclick = function(){
+        buscaCartas()
+        newBut.remove()
+    }
     let text = document.createTextNode(erromsg)
     newBut.appendChild(text)
     let h = document.getElementById('carta')
@@ -44,14 +46,19 @@ function criaBotaoErro(erromsg){
 function cartas(elemento, index, array) {
     criaCarta(array[index].name, array[index].originalText, array[index].imageUrl, array[index].originalType)
 }
-
-fetch(cartinhas, {
-    method: 'get'
-})
+function buscaCartas(){
+    fetch(cartinhas, {
+        method: 'get',
+    })
     .then(response => response.json())
     .then(function (jsonrsp) {
+        console.log(jsonrsp)
         jsonrsp.cards.forEach(cartas)
     })
     .catch(function (err) {
         criaBotaoErro("Não foi possível carregar as cartas")
+        // cartinhas += 's'
     })
+}
+buscaCartas()
+    
